@@ -4,6 +4,35 @@ I built this lab to practise the core of an entry level IT support / sysadmin ro
 
 **Environment:** one Windows Server 2022 domain controller (`WIN-QCCH93AVUST`, `10.0.2.15`, domain `akvlab.local` / NetBIOS `AKVLAB`) and one domain joined Windows 11 client (`10.0.2.20`), both on a VirtualBox internal network (`akvlab-net`).
 
+## Homelab Block Diagram
+
+```mermaid
+flowchart TB
+    subgraph VBox["VirtualBox Host"]
+        subgraph Net["Internal Network: akvlab-net"]
+            DC["Domain Controller<br/>WIN-QCCH93AVUST<br/>10.0.2.15<br/>akvlab.local / AKVLAB"]
+            Client["Windows 11 Client<br/>10.0.2.20<br/>Domain Joined"]
+        end
+    end
+    SNow(["ServiceNow PDI<br/>Ticketing, Task 4"])
+
+    DC ==>|DNS, Kerberos, LDAP| Client
+    Client ==>|SMB file share access| DC
+    Client ==>|Browser, tickets logged| SNow
+```
+
+## Skills Demonstrated
+
+* Active Directory administration: OU structure, security groups, least privilege group membership
+* DNS verification and troubleshooting using SRV record lookups
+* Windows client domain join and network profile troubleshooting
+* Group Policy: password policy, interactive logon banner, and independent verification of applied settings
+* Windows file share design: layered share and NTFS permissions, broken inheritance, effective access testing
+* Access control troubleshooting: GUI dialogs that silently fail to save, misapplied ACEs, stale logon tokens
+* PowerShell for verification and diagnostics, including Get-ADDefaultDomainPasswordPolicy, Get-SmbShare, Get-Acl and whoami
+* ITSM ticket handling in ServiceNow: incident versus service request classification, work notes versus customer facing resolution notes
+* Root cause documentation, including catching a misconfiguration during later work that earlier verification had missed
+
 * **Task 1:** Built a Windows 11 client VM and joined it to the domain. Key skill: DNS verification, domain join, network profile troubleshooting.
 * **Task 2:** Configured a domain password policy and a logon banner via GPO. Key skill: Group Policy configuration and verification.
 * **Task 3:** Built a departmental file share with a layered share and NTFS permission model. Key skill: Share/NTFS permission modelling, access troubleshooting.
