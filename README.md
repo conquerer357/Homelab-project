@@ -6,20 +6,25 @@ I built this lab to practise the core of an entry level IT support / sysadmin ro
 
 ## Homelab Block Diagram
 
-```mermaid
-flowchart TB
-    subgraph VBox["VirtualBox Host"]
-        subgraph Net["Internal Network: akvlab-net"]
-            DC["Domain Controller<br/>WIN-QCCH93AVUST<br/>10.0.2.15<br/>akvlab.local / AKVLAB"]
-            Client["Windows 11 Client<br/>10.0.2.20<br/>Domain Joined"]
-        end
-    end
-    SNow(["ServiceNow PDI<br/>Ticketing, Task 4"])
-
-    DC ==>|DNS, Kerberos, LDAP| Client
-    Client ==>|SMB file share access| DC
-    Client ==>|Browser, tickets logged| SNow
 ```
+                       VirtualBox
+
+                    Internal Network
+                      akvlab-net
+                          │
+          ────────────────┴────────────────
+          │                                │
+     Windows Server                   Windows 11
+     WIN-QCCH93AVUST                  10.0.2.20
+     10.0.2.15                        (domain joined client)
+          │
+     Active Directory
+     DNS
+     File Server (C:\Shares\Finance)
+     Group Policy
+```
+
+Ticketing for Task 4 runs in a separate ServiceNow Personal Developer Instance, reached over a browser rather than through akvlab-net.
 
 ## Skills Demonstrated
 
